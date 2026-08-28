@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#020403"/>
+<title>ORVEXITH — Defense Intelligence Systems</title>
+<meta name="description" content="ORVEXITH develops AI-enabled defense intelligence, autonomous systems, secure edge computing and operator decision support."/>
+<style>
+:root{
+  --bg:#020403;--panel:#07100c;--panel2:#09140f;--line:rgba(201,255,109,.13);
+  --text:#f4f8f0;--muted:#9aa89b;--soft:#667168;--acid:#c9ff6d;--acid2:#8bd847;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--acid);color:#051006}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+}
+.gridbg{
+  position:fixed;inset:0;pointer-events:none;opacity:.16;
+  background-image:
+    linear-gradient(rgba(201,255,109,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,255,109,.045) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:linear-gradient(to bottom,black,transparent 72%);
+}
+nav{
+  position:fixed;top:0;left:0;right:0;height:76px;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;padding:0 4.5vw;
+  background:linear-gradient(to bottom,rgba(2,4,3,.92),rgba(2,4,3,.35),transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:.25s;
+}
+nav.scrolled{background:rgba(2,4,3,.9);border-color:var(--line)}
+.brand{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700;letter-spacing:.28em}
+.brand img{width:32px;height:32px;object-fit:contain;border-radius:50%}
+.links{display:flex;align-items:center;gap:28px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#b7c1b7}
+.links a:hover{color:var(--acid)}
+.badge{border:1px solid var(--line);padding:10px 14px;border-radius:999px}
+
+.hero{
+  min-height:100svh;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;
+  gap:5vw;padding:130px 4.5vw 70px;border-bottom:1px solid var(--line);position:relative;overflow:hidden;
+}
+.hero:after{
+  content:"";position:absolute;width:70vw;height:70vw;right:-35vw;top:-25vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,255,109,.11),transparent 55%);
+  filter:blur(10px);
+}
+.status{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:var(--acid);margin-bottom:26px}
+.status i{width:7px;height:7px;background:var(--acid);border-radius:50%;box-shadow:0 0 18px var(--acid);animation:pulse 1.5s infinite}
+@keyframes pulse{50%{opacity:.35}}
+h1{font-size:clamp(58px,8.8vw,150px);letter-spacing:-.075em;line-height:.84;margin:0;font-weight:650}
+h1 span{color:var(--acid)}
+.lead{margin-top:36px;max-width:760px;font-size:clamp(18px,1.9vw,25px);line-height:1.5;color:#cad4c9}
+.actions{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+.btn{padding:13px 18px;border-radius:999px;border:1px solid var(--line);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.btn.primary{background:var(--acid);color:#071006;border-color:var(--acid);font-weight:700}
+
+.hud{
+  min-height:560px;position:relative;border:1px solid var(--line);background:
+    radial-gradient(circle at center,rgba(201,255,109,.09),transparent 32%),
+    linear-gradient(180deg,rgba(10,23,15,.92),rgba(3,8,5,.94));
+  overflow:hidden;
+}
+.hud .corner{position:absolute;width:46px;height:46px;border-color:var(--acid);opacity:.55}
+.c1{left:16px;top:16px;border-left:1px solid;border-top:1px solid}
+.c2{right:16px;top:16px;border-right:1px solid;border-top:1px solid}
+.c3{left:16px;bottom:16px;border-left:1px solid;border-bottom:1px solid}
+.c4{right:16px;bottom:16px;border-right:1px solid;border-bottom:1px solid}
+.radar{
+  position:absolute;left:50%;top:50%;width:66%;aspect-ratio:1;border-radius:50%;
+  transform:translate(-50%,-50%);border:1px solid rgba(201,255,109,.22);
+  background:
+    linear-gradient(90deg,transparent 49.8%,rgba(201,255,109,.16) 50%,transparent 50.2%),
+    linear-gradient(transparent 49.8%,rgba(201,255,109,.16) 50%,transparent 50.2%),
+    radial-gradient(circle,transparent 24%,rgba(201,255,109,.1) 24.4%,transparent 25%,transparent 49%,rgba(201,255,109,.08) 49.5%,transparent 50%);
+}
+.sweep{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,rgba(201,255,109,.35),transparent 13%,transparent 100%);
+  animation:spin 5s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.blip{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 14px var(--acid)}
+.b1{left:63%;top:30%}.b2{left:32%;top:62%}.b3{left:70%;top:68%}
+.hudlabel{position:absolute;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#92a191}
+.hl1{left:24px;top:26px}.hl2{right:24px;top:26px}.hl3{left:24px;bottom:26px}
+.coords{position:absolute;right:24px;bottom:24px;text-align:right;font-family:ui-monospace,monospace;color:var(--acid);font-size:11px;line-height:1.7}
+
+.ticker{overflow:hidden;border-bottom:1px solid var(--line);white-space:nowrap}
+.track{display:inline-flex;gap:36px;padding:16px 0;animation:mar 24s linear infinite;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#91a091}
+.track span:after{content:"//";margin-left:36px;color:var(--acid)}
+@keyframes mar{to{transform:translateX(-50%)}}
+
+.section{padding:110px 4.5vw;border-bottom:1px solid var(--line)}
+.head{display:grid;grid-template-columns:.36fr 1.25fr;gap:6vw;margin-bottom:68px}
+.kicker{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--acid);padding-top:10px}
+h2{font-size:clamp(40px,6vw,92px);line-height:.96;letter-spacing:-.06em;margin:0;font-weight:570}
+.desc{font-size:18px;line-height:1.7;color:var(--muted);max-width:760px;margin-top:28px}
+
+.cards{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.card{min-height:360px;padding:28px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;background:linear-gradient(180deg,rgba(201,255,109,.025),transparent);transition:.3s}
+.card:hover{background:rgba(201,255,109,.05);transform:translateY(-3px)}
+.num{font-size:10px;letter-spacing:.16em;color:#728071}
+.icon{position:absolute;right:26px;top:24px;color:var(--acid);font-size:20px}
+.card h3{font-size:25px;letter-spacing:-.03em;margin:140px 0 14px}
+.card p{color:var(--muted);line-height:1.6;font-size:14px}
+
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:4vw;align-items:center}
+.panel{min-height:580px;border:1px solid var(--line);position:relative;overflow:hidden;background:linear-gradient(180deg,#08110c,#030705)}
+.matrix{position:absolute;inset:0;background-image:
+ linear-gradient(rgba(201,255,109,.05) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(201,255,109,.05) 1px,transparent 1px);
+ background-size:32px 32px;transform:perspective(700px) rotateX(60deg) scale(1.5);transform-origin:center 90%;opacity:.9}
+.glowline{position:absolute;left:12%;right:12%;top:52%;height:1px;background:var(--acid);box-shadow:0 0 30px var(--acid)}
+.readout{position:absolute;left:28px;right:28px;bottom:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.readout div{border-top:1px solid var(--line);padding-top:10px}
+.readout b{display:block;font-size:22px}.readout span{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#738075}
+.copy h3{font-size:clamp(40px,5vw,74px);line-height:1;letter-spacing:-.055em;margin:10px 0 24px}
+.copy p{font-size:18px;line-height:1.7;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.tag{border:1px solid var(--line);padding:10px 13px;border-radius:999px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#afbaaf}
+
+.statement{padding:12vw 4.5vw;text-align:center;border-bottom:1px solid var(--line)}
+.statement p{font-size:clamp(44px,7vw,116px);line-height:.94;letter-spacing:-.07em;margin:0 auto;max-width:1450px}
+.statement em{font-style:normal;color:var(--acid)}
+
+.contact{padding:95px 4.5vw 44px;background:var(--acid);color:#071006}
+.contacttop{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end}
+.contact h2{font-size:clamp(58px,9vw,140px);line-height:.84}
+.contact a{border:1px solid #071006;border-radius:999px;padding:15px 19px;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+footer{display:flex;justify-content:space-between;gap:24px;border-top:1px solid rgba(7,16,6,.35);padding-top:22px;margin-top:105px;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+
+.reveal{opacity:0;transform:translateY(26px);transition:.75s ease}
+.reveal.show{opacity:1;transform:none}
+
+@media(max-width:980px){
+  nav{padding:0 20px}.links a:not(.badge){display:none}
+  .hero,.section,.contact{padding-left:20px;padding-right:20px}
+  .hero,.head,.dual,.contacttop{grid-template-columns:1fr}
+  .hud{min-height:430px}.cards{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .cards{grid-template-columns:1fr}.card{min-height:280px}.card h3{margin-top:90px}
+  .hero{padding-top:110px}.metrics{grid-template-columns:1fr 1fr}
+  footer{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="gridbg"></div>
+
+<nav id="nav">
+  <a href="#top" class="brand"><img src="logo.png" alt="ORVEXITH logo" onerror="this.style.display='none'"><span>ORVEXITH</span></a>
+  <div class="links">
+    <a href="#systems">Systems</a>
+    <a href="#platform">Platform</a>
+    <a href="#principles">Principles</a>
+    <a href="#leadership">Leadership</a>
+    <a href="#contact" class="badge">Contact</a>
+  </div>
+</nav>
+
+<main id="top">
+<section class="hero">
+  <div class="reveal">
+    <div class="status"><i></i> Defense Intelligence Systems</div>
+    <h1>AI for the<br><span>defense edge.</span></h1>
+    <p class="lead">ORVEXITH develops AI-enabled defense intelligence, autonomous systems, secure edge computing and operator decision support for complex operational environments.</p>
+    <div class="actions">
+      <a class="btn primary" href="#systems">Explore systems</a>
+      <a class="btn" href="#contact">Work with us</a>
+    </div>
+  </div>
+
+  <div class="hud reveal">
+    <i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i>
+    <span class="hudlabel hl1">ORV / INTEL GRID</span>
+    <span class="hudlabel hl2">LINK: SECURE</span>
+    <span class="hudlabel hl3">EDGE NODE / ACTIVE</span>
+    <div class="radar">
+      <div class="sweep"></div>
+      <span class="blip b1"></span><span class="blip b2"></span><span class="blip b3"></span>
+    </div>
+    <div class="coords">LAT 00.0000<br>LON 00.0000<br>SYS // READY</div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="track">
+    <span>Autonomous Intelligence</span><span>Sensor Fusion</span><span>Secure Edge AI</span><span>Decision Support</span><span>Mission Systems</span>
+    <span>Autonomous Intelligence</span><span>Sensor Fusion</span><span>Secure Edge AI</span><span>Decision Support</span><span>Mission Systems</span>
+  </div>
+</div>
+
+<section class="section" id="systems">
+  <div class="head reveal">
+    <div class="kicker">01 / Defense Systems</div>
+    <div><h2>Software-defined capability for modern defense.</h2><p class="desc">ORVEXITH focuses on the intelligence layer: helping systems sense, interpret, coordinate and support human decision-making under uncertainty.</p></div>
+  </div>
+  <div class="cards">
+    <article class="card reveal"><span class="num">01.1</span><span class="icon">⌁</span><h3>Autonomous Systems</h3><p>AI architectures for navigation, coordination and adaptive mission behavior across distributed platforms.</p></article>
+    <article class="card reveal"><span class="num">01.2</span><span class="icon">◉</span><h3>Sensor Fusion</h3><p>Multimodal perception that combines disparate sensor inputs into a coherent operational picture.</p></article>
+    <article class="card reveal"><span class="num">01.3</span><span class="icon">⌬</span><h3>Edge Intelligence</h3><p>Low-latency AI designed to operate close to the mission, including in degraded-connectivity environments.</p></article>
+    <article class="card reveal"><span class="num">01.4</span><span class="icon">↗</span><h3>Decision Support</h3><p>Operator-centered systems that prioritize information, surface anomalies and improve situational clarity.</p></article>
+  </div>
+</section>
+
+<section class="section" id="platform">
+  <div class="dual">
+    <div class="panel reveal">
+      <div class="matrix"></div><div class="glowline"></div>
+      <div class="readout">
+        <div><b>24/7</b><span>Operational</span></div>
+        <div><b>EDGE</b><span>Compute</span></div>
+        <div><b>HITL</b><span>Control</span></div>
+      </div>
+    </div>
+    <div class="copy reveal">
+      <div class="kicker">02 / Intelligence Platform</div>
+      <h3>One secure layer across the mission stack.</h3>
+      <p>A modular software architecture designed to connect perception, autonomy, data and operator workflows across heterogeneous platforms—without tying teams to a single hardware ecosystem.</p>
+      <div class="tags"><span class="tag">Modular</span><span class="tag">Interoperable</span><span class="tag">Human-in-the-loop</span><span class="tag">Secure by design</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="principles">
+  <div class="head reveal">
+    <div class="kicker">03 / Engineering Doctrine</div>
+    <div><h2>Capability with control.</h2><p class="desc">Defense AI must be engineered for reliability, oversight, traceability and resilience—not just raw model performance.</p></div>
+  </div>
+  <div class="cards">
+    <article class="card reveal"><span class="num">03.1</span><h3>Human Authority</h3><p>Critical workflows are designed around meaningful operator oversight and clearly defined control boundaries.</p></article>
+    <article class="card reveal"><span class="num">03.2</span><h3>Mission Resilience</h3><p>Systems are designed for uncertain inputs, degraded networks and changing operational conditions.</p></article>
+    <article class="card reveal"><span class="num">03.3</span><h3>Traceability</h3><p>System behavior, model outputs and operational decisions should remain observable and auditable.</p></article>
+    <article class="card reveal"><span class="num">03.4</span><h3>Interoperability</h3><p>Open, modular interfaces enable integration with existing platforms, sensors and command workflows.</p></article>
+  </div>
+</section>
+
+
+<section class="section" id="leadership">
+  <div class="head reveal">
+    <div class="kicker">04 / Leadership</div>
+    <div>
+      <h2>Built with a clear mission.</h2>
+      <p class="desc">ORVEXITH is led at the intersection of artificial intelligence, advanced engineering and next-generation defense systems.</p>
+    </div>
+  </div>
+  <div style="border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:42px 0;display:grid;grid-template-columns:minmax(220px,.65fr) 1.35fr;gap:6vw;align-items:end" class="reveal">
+    <div>
+      <div class="kicker" style="margin-bottom:14px">Founder &amp; Chief Executive Officer</div>
+      <div style="font-size:clamp(34px,5vw,72px);line-height:.95;letter-spacing:-.055em;font-weight:570">Natasha<br>Lleonora</div>
+    </div>
+    <div style="max-width:720px">
+      <p style="font-size:clamp(20px,2.2vw,30px);line-height:1.35;margin:0 0 20px;color:#dce5da">Leading ORVEXITH's vision for intelligent, resilient and operator-centered defense technology.</p>
+      <p style="color:var(--muted);line-height:1.7;margin:0">Focused on building advanced AI systems that transform complex information into decision advantage while maintaining human authority, system resilience and accountable engineering.</p>
+    </div>
+  </div>
+</section>
+
+<section class="statement reveal">
+  <p>Transform information into <em>decision advantage.</em></p>
+</section>
+</main>
+
+<section class="contact" id="contact">
+  <div class="contacttop">
+    <h2>Build the<br>next edge.</h2>
+    <a href="mailto:contact@orvexith.ai">contact@orvexith.ai ↗</a>
+  </div>
+  <footer>
+    <span>© 2026 ORVEXITH</span>
+    <span>Defense Intelligence Systems</span>
+    <span>AI • Autonomy • Mission Software</span>
+  </footer>
+</section>
+
+<script>
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
